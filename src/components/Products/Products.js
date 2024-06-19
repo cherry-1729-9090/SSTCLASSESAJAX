@@ -1,67 +1,29 @@
-import ProductCard from "../ProductCard/ProductCard";
-import Effect from "../Effect/Effect";
-import { useEffect, useState } from "react";
+import ProductCard from '../ProductCard/ProductCard';
+import { useEffect, useState } from 'react';
 
-function Products() {
-  let [products, setProducts] = useState([]); // Initialize as an empty array
+function Products({ incrCart, decrCart }) {
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     fetch("https://602fc537a1e9d20017af105e.mockapi.io/api/v1/products")
       .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        setProducts(data); // Set the fetched data to products
-      });
-  }, []); // Empty dependency array to run only once after mounting
-
-  function useWindowDimensions() {
-    const [windowDimensions, setWindowDimensions] = useState({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
-  
-    useEffect(() => {
-      function updateWindowDimensions() {
-        setWindowDimensions({
-          width: window.innerWidth,
-          height: window.innerHeight,
-        });
-        // console.log({width,height});
-      }
-      window.addEventListener('resize', updateWindowDimensions);
-    }, []);   
-  }
-
-
-
+      .then(data => setProducts(data));
+  }, []);
 
   return (
     <div>
-      <div><Effect /></div>
-      {
-        products.map((item) => {
-          return (<ProductCard key={item.id} title={item.title} price={item.price} />)
-        })
-      }
+      {products.map(product => (
+        <ProductCard 
+          key={product.id} 
+          title={product.title} 
+          price={product.price} 
+          product={product} 
+          incrCart={incrCart} 
+          decrCart={decrCart} 
+        />
+      ))}
     </div>
-  )
+  );
 }
 
-export let a = 10;
-export let b = 20;
 export default Products;
-
-
-
-// oldDom = [
-// <ProductCard title="Title 1" />,
-// <ProductCard title="Title 2" />,
-// <ProductCard title="Title 3" />
-// ] 
-
-// newDom = [
-// <ProductCard title="Title 1" />,
-// <ProductCard title="Title 4" />,
-// <ProductCard title="Title 2" />,
-// <ProductCard title="Title 3" />
-// ]
