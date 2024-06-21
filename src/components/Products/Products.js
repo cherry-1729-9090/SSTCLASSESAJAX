@@ -1,7 +1,10 @@
+// Products.js
+import React, { useContext, useEffect, useState } from 'react';
 import ProductCard from '../ProductCard/ProductCard';
-import { useEffect, useState } from 'react';
+import CartContext from '../../Context/context';
 
-function Products({ incrCart, decrCart }) {
+function Products() {
+  const { incrCart, decrCart } = useContext(CartContext);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {

@@ -1,20 +1,16 @@
+// ProductCard.js
+import React, { useState, useRef } from 'react';
 import './ProductCard.css';
 import AddToCart from '../AddToCart/AddToCart';
-import { useRef, useState, useEffect } from 'react';
 import logo1 from '../../assests/logo1.png';
 
 function ProductCard({ title, price, product, incrCart, decrCart }) {
   const [inputV, setInputV] = useState('Class');
   const [qty, setQty] = useState(0);
-  
+
   const pRef = useRef(0);
   const iRef = useRef(0);
   const oRef = useRef(0);
-
-  useEffect(() => {
-    // You can set the initial qty from the cart if needed
-    // setQty(initialQtyFromCart);
-  }, []);
 
   const handleAddToCart = () => {
     incrCart(product);
@@ -27,13 +23,8 @@ function ProductCard({ title, price, product, incrCart, decrCart }) {
   };
 
   const handleDecrement = () => {
-    if (qty > 1) {
-      decrCart(product);
-      setQty(qty - 1);
-    } else {
-      decrCart(product);
-      setQty(0);
-    }
+    decrCart(product);
+    setQty(qty - 1);
   };
 
   const printTitle = () => {
@@ -55,12 +46,13 @@ function ProductCard({ title, price, product, incrCart, decrCart }) {
       <img src={logo1} alt="Product Logo" />
       <input type="text" onChange={displayOutput} ref={iRef} value={inputV} />
       <p ref={oRef}>Over here the output would arrive - {inputV}</p>
-      <AddToCart product = {product} 
+      <AddToCart
+        product={product}
         handleAddToCart={handleAddToCart}
         handleIncrement={handleIncrement}
         handleDecrement={handleDecrement}
         qty={qty}
-        />
+      />
     </div>
   );
 }

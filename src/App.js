@@ -1,35 +1,39 @@
+// App.js
 import './App.css';
 import Products from './components/Products/Products';
 import { useState } from 'react';
+import CartContext from './Context/context';
 
 function App() {
   const [cart, setCart] = useState({});
 
-  function incrCart(product) {
-    if (cart[product.id]) {
-      cart[product.id].qty += 1;
-    } else {
-      cart[product.id] = { ...product, qty: 1 };
-    }
-    console.log(cart);
-    
-    setCart({ ...cart });
-  }
+  const incrCart = (product) => {
+    setCart((prevCart) => ({
+      ...prevCart,
+      [product.id]: prevCart[product.id]
+        ? { ...prevCart[product.id], qty: prevCart[product.id].qty + 1 }
+        : { ...product, qty: 1 }
+    }));
+  };
 
-  function decrCart(product) {
-    if (cart[product.id].qty > 1) {
-      cart[product.id].qty -= 1;
-    } else {
-      delete cart[product.id];
-    }
-    console.log(cart);
-    setCart({ ...cart });
-  }
+  const decrCart = (product) => {
+    setCart((prevCart) => {
+      const newCart = { ...prevCart };
+      if (newCart[product.id].qty > 1) {
+        newCart[product.id].qty -= 1;
+      } else {
+        delete newCart[product.id];
+      }
+      return newCart;
+    });
+  };
 
   return (
-    <div className="App">
-      <Products incrCart={incrCart} decrCart={decrCart} />
-    </div>
+    <CartContext.Provider value={{ cart, incrCart, decrCart }}>
+      <div className="App">
+        <Products />
+      </div>
+    </CartContext.Provider>
   );
 }
 
