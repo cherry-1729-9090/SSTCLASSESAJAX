@@ -3,10 +3,13 @@ import './App.css';
 import Products from './components/Products/Products';
 import { useState } from 'react';
 import CartContext from './Context/context';
+import React from 'react';
+import ReduxAddToCart from './components/ReduxAddToCart/ReduxAddToCart';
+
+
 
 function App() {
   const [cart, setCart] = useState({});
-
   const incrCart = (product) => {
     setCart((prevCart) => ({
       ...prevCart,
@@ -38,3 +41,5 @@ function App() {
 }
 
 export default App;
+
+

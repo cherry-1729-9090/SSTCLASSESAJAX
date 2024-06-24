@@ -12,7 +12,7 @@ function Products() {
       .then(response => response.json())
       .then(data => setProducts(data));
   }, []);
-
+  
   return (
     <div>
       {products.map(product => (
