@@ -1,18 +1,28 @@
-import { useEffect, useState } from "react";
-import { loadCategories } from "../../stores/Categories";
-import { useDispatch } from "react-redux";
+// Categories.js
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loadCategories } from "../../store/CategoriesReducer";
+import './Categories.css';
 function Categories() {
-    const [categories, setCategories] = useState([]);
     const dispatch = useDispatch();
+    const categories = useSelector(state => state.categories.categories); // Adjust the path to match your state shape
+
     useEffect(() => {
         dispatch(loadCategories());
-    },[])
-    return (<div>
-        {categories.map((item)=> {
-            return(
-            <div key={item.id}>{item.name}</div>)
-        })}
-    </div>)
+    }, [dispatch]);
+
+    return (
+        <div className="cat-div">
+            <h1>Categories</h1>
+            <div className="div-cat">
+                {categories.map((item) => (
+                    <div className="categor">
+                    <div key={item.id}>{item.name}</div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 }
 
 export default Categories;

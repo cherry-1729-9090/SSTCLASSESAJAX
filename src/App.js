@@ -4,9 +4,9 @@ import Products from './components/Products/Products';
 import { useState } from 'react';
 import CartContext from './Context/context';
 import React from 'react';
-import ReduxAddToCart from './components/ReducAddToCart/ReduxAddToCart';
-
-
+import Categories from './components/categories/Categories';
+import { Provider } from 'react-redux';
+import store from './store'; // Import the store
 
 function App() {
   const [cart, setCart] = useState({});
@@ -32,14 +32,14 @@ function App() {
   };
 
   return (
-    <CartContext.Provider value={{ cart, incrCart, decrCart }}>
-      <div className="App">
-        <Products />
-      </div>
-    </CartContext.Provider>
+    <Provider store={store}> {/* Wrap the app in the Provider */}
+      <CartContext.Provider value={{ cart, incrCart, decrCart }}>
+        <div className="App">
+          <Products />
+        </div>
+      </CartContext.Provider>
+    </Provider>
   );
 }
 
 export default App;
-
-

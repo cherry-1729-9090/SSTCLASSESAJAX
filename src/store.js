@@ -1,57 +1,15 @@
-import { createStore } from "redux";
-function cartReducer(state = { items: {} }, action) {
-    const product = action.payload;
-    switch (action.type) {
-        case "ADD_TO_CART": {
-            if (state.items[product.id]) {
-                return {
-                    ...state,
-                    items: {
-                        ...state.items,
-                        [product.id]: {
-                            ...product,
-                            qty: state.items[product.id].qty + 1
-                        }
-                    }
-                }
-            } else {
-                return {
-                    ...state,
-                    items: {
-                        ...state.items,
-                        [product.id]: {
-                            ...product,
-                            qty: 1
-                        }
-                    }
-                }
-            }
-        }
-        case "REMOVE_FROM_CART": {
-            if (state.items[product.id].qty - 1 > 0) {
-                return {
-                    ...state,
-                    items: {
-                        ...state.items,
-                        [product.id]: {
-                            ...product,
-                            qty: state.items[product.id].qty - 1
-                        }
-                    }
-                }
-            }
-            else {
-                const { [product.id]: _, ...remainingItems } = state.items;
-                return {
-                    ...state,
-                    items: remainingItems
-                };
-            }
-        }
-        default:
-            return state;
-    }
-}
+// store.js
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import {thunk} from 'redux-thunk';
+import cartReducer from './store/CartReducer'; // Assuming you have a separate file for the cart reducer
+import categoriesReducer from './store/CategoriesReducer'; // Adjust the path as needed
 
-const store = createStore(cartReducer);
+const rootReducer = combineReducers({
+    cart: cartReducer,
+    categories: categoriesReducer,
+    // Add other reducers here if needed
+});
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
+
 export default store;
